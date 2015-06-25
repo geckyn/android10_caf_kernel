@@ -1312,6 +1312,8 @@ static int create_device(struct zram *zram, int device_id)
 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
 	zram->meta = NULL;
 	zram->max_comp_streams = 1;
+
+	pr_info("Added device: %s\n", zram->disk->disk_name);
 	return 0;
 
 out_free_queue:
@@ -1337,7 +1339,6 @@ static void destroy_devices(unsigned int nr)
 
 	kfree(zram_devices);
 	unregister_blkdev(zram_major, "zram");
-	pr_info("Destroyed %u device(s)\n", nr);
 }
 
 static int __init zram_init(void)
