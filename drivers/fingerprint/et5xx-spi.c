@@ -575,25 +575,6 @@ static long etspi_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 			pr_info("%s FP_CPU_SPEEDUP ON:%d, retry: %d\n",
 					__func__, ioc->len, retry_cnt);
-			if (etspi->min_cpufreq_limit) {
-				do {
-					retval = set_freq_limit(DVFS_FINGER_ID,
-							etspi->min_cpufreq_limit);
-					retry_cnt++;
-					if (retval) {
-						pr_err("%s: booster start failed. (%d) retry: %d\n"
-							, __func__, retval,
-							retry_cnt);
-						usleep_range(500, 510);
-					}
-				} while (retval && retry_cnt < 7);
-			}
-		} else {
-			pr_info("%s FP_CPU_SPEEDUP OFF\n", __func__);
-			retval = set_freq_limit(DVFS_FINGER_ID, -1);
-			if (retval)
-				pr_err("%s: booster stop failed. (%d)\n"
-					, __func__, retval);
 		}
 		break;
 	case FP_SET_SENSOR_TYPE:
