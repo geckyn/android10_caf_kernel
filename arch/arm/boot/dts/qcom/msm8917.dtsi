@@ -399,15 +399,15 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <5>;
 		qcom,poll-ms = <250>;
-		qcom,limit-temp = <60>;
-		qcom,temp-hysteresis = <10>;
+		qcom,limit-temp = <50>;
+		qcom,temp-hysteresis = <5>;
 		qcom,freq-step = <2>;
-		qcom,core-limit-temp = <80>;
-		qcom,core-temp-hysteresis = <10>;
+		qcom,core-limit-temp = <70>;
+		qcom,core-temp-hysteresis = <5>;
 		qcom,hotplug-temp = <105>;
-		qcom,hotplug-temp-hysteresis = <15>;
-		qcom,freq-mitigation-temp = <105>;
-		qcom,freq-mitigation-temp-hysteresis = <15>;
+		qcom,hotplug-temp-hysteresis = <5>;
+		qcom,freq-mitigation-temp = <100>;
+		qcom,freq-mitigation-temp-hysteresis = <5>;
 		qcom,freq-mitigation-value = <998400>;
 		qcom,therm-reset-temp = <115>;
 		qcom,online-hotplug-core;
@@ -418,6 +418,7 @@
 		qcom,disable-vdd-mx;
 		qcom,disable-psm;
 		qcom,disable-ocr;
+		qcom,disable-vdd-rstr;
 		qcom,vdd-restriction-temp = <5>;
 		qcom,vdd-restriction-temp-hysteresis = <10>;
 		vdd-dig-supply = <&pm8917_s2_floor_level>;
@@ -807,19 +808,37 @@
 		clock-names = "clk-c1-4", "clk-c1-5";
 		qcom,speed0-bin-v0-c1 =
 			<          0 0>,
-			<  960000000 1>,
-			< 1094400000 2>,
-			< 1248000000 3>,
-			< 1401000000 4>;
-
-		qcom,speed1-bin-v0-c1 =
-			<          0 0>,
+			<  200000000 1>,
+			<  400000000 1>,
+			<  533000000 1>,
+			<  800000000 1>,
 			<  960000000 1>,
 			< 1094400000 2>,
 			< 1248000000 3>,
 			< 1401000000 4>,
-			< 1497600000 5>;
+			< 1497600000 5>,
+			< 1574400000 6>,
+			< 1651200000 7>,
+			< 1708800000 8>,
+			< 1804800000 9>,
+			< 1958400000 10>;
 
+		qcom,speed1-bin-v0-c1 =
+			<          0 0>,
+			<  200000000 1>,
+			<  400000000 1>,
+			<  533000000 1>,
+			<  800000000 1>,
+			<  960000000 1>,
+			< 1094400000 2>,
+			< 1248000000 3>,
+			< 1401000000 4>,
+			< 1497600000 5>,
+			< 1574400000 6>,
+			< 1651200000 7>,
+			< 1708800000 8>,
+			< 1804800000 9>,
+			< 1958400000 10>;
 		#clock-cells = <1>;
 	};
 
@@ -833,11 +852,20 @@
 			 <&clock_cpu clk_a53_bc_clk>;
 
 		qcom,cpufreq-table =
+			 <  200000 >,
+			 <  400000 >,
+			 <  533000 >,
+			 <  800000 >,
 			 <  960000 >,
 			 < 1094400 >,
 			 < 1248000 >,
 			 < 1401000 >,
-			 < 1497600 >;
+			 < 1497600 >,
+			 < 1574400 >,
+			 < 1651200 >,
+			 < 1708800 >,
+			 < 1804800 >,
+			 < 1958400 >;
 	};
 
 	usb_otg: usb@78db000 {
@@ -977,7 +1005,10 @@
 		cpu-to-dev-map =
 			<  998400  4248 >,
 			< 1094400  4541 >,
-			< 1497600  5645 >;
+			< 1497600  5645 >,
+			< 1574400  5645 >,
+			< 1651200  5645 >,
+			< 1958400  5645 >;
 		};
 
 		mincpubw-cpufreq {
@@ -985,7 +1016,10 @@
 			cpu-to-dev-map =
 				<  998400 2270 >,
 				< 1094400 4248 >,
-				< 1497600 4248 >;
+				< 1497600 4248 >,
+				< 1574400 4248 >,
+				< 1651200 5126 >,
+				< 1958400 5645 >;
 		};
 	};
 
