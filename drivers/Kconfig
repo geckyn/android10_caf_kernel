@@ -201,4 +201,6 @@ source "drivers/bif/Kconfig"
 source "drivers/muic/Kconfig"
 
 source "drivers/motor/Kconfig"
+
+source "drivers/gud/Kconfig"
 endmenu
