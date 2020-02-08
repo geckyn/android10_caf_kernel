@@ -437,7 +437,6 @@ static void destroy_all_cal_blocks(struct cal_type_data *cal_type)
 	struct list_head		*ptr, *next;
 	struct cal_block_data		*cal_block;
 
-	mutex_lock(&destroy_cal_lock);
 	list_for_each_safe(ptr, next,
 		&cal_type->cal_blocks) {
 
@@ -454,7 +453,6 @@ static void destroy_all_cal_blocks(struct cal_type_data *cal_type)
 		delete_cal_block(cal_block);
 		cal_block = NULL;
 	}
-	mutex_unlock(&destroy_cal_lock);
 
 	return;
 }
@@ -487,13 +485,11 @@ void cal_utils_destroy_cal_types(int num_cal_types,
 		goto done;
 	}
 
-	mutex_lock(&destroy_cal_lock);
 	for (i = 0; i < num_cal_types; i++) {
 		audio_cal_deregister(1, &cal_type[i]->info.reg);
 		destroy_cal_type_data(cal_type[i]);
 		cal_type[i] = NULL;
 	}
-	mutex_unlock(&destroy_cal_lock);
 done:
 	return;
 }
@@ -669,22 +665,21 @@ void cal_utils_clear_cal_block_q6maps(int num_cal_types,
 		goto done;
 	}
 
-	mutex_lock(&destroy_cal_lock);
 	for (; i < num_cal_types; i++) {
 		if (cal_type[i] == NULL)
 			continue;
 
+		mutex_lock(&cal_type[i]->lock);
 		list_for_each_safe(ptr, next,
 			&cal_type[i]->cal_blocks) {
 
 			cal_block = list_entry(ptr,
 				struct cal_block_data, list);
 
-			if (cal_block != NULL)
-				cal_block->map_data.q6map_handle = 0;
+			cal_block->map_data.q6map_handle = 0;
 		}
+		mutex_unlock(&cal_type[i]->lock);
 	}
-	mutex_unlock(&destroy_cal_lock);
 done:
 	return;
 }
