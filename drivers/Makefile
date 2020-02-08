@@ -183,3 +183,6 @@ obj-$(CONFIG_USE_MUIC)		+= muic/
 
 # Motor
 obj-y				+= motor/
+
+# <t-base drivers
+obj-$(CONFIG_TRUSTONIC_TEE)	+= gud/
