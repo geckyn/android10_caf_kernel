@@ -177,3 +177,6 @@ obj-$(CONFIG_SENSORS_SSC)	+= sensors/
 ifeq ($(CONFIG_FB_MSM_MDSS_SAMSUNG),y)
 	LINUXINCLUDE	+=  -I$(srctree)/drivers/video/msm/mdss/samsung/
 endif
+
+# MUIC
+obj-$(CONFIG_USE_MUIC)		+= muic/
