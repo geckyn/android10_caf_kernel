@@ -475,7 +475,7 @@
 					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/system";
 					type = "ext4";
 					mnt_flags = "ro,errors=panic";
-					fsmgr_flags = "wait,verify";
+					fsmgr_flags = "wait";
 					status = "ok";
 				};
 
