@@ -12665,79 +12665,48 @@ void hdd_prevent_suspend_timeout(v_U32_t timeout, uint32_t reason)
 
 }
 
-/**
- * hdd_get_feature_caps_cb() - Callback invoked from WDA
- * @cookie: to identify HDD request to firmware
- *
- * This function is invoked from WDA when feature capabilities response
- * is received from firmware.
- *
- * Return: None
- */
-static void hdd_get_feature_caps_cb(void *cookie)
+#ifdef SEC_WRITE_ANT_GPIO_INFO_IN_FILE
+#define SEC_ANTCABLE_FILEPATH "/data/vendor/conn/.wificable.info"
+void cnss_read_roam_cable(void)
 {
-	struct hdd_request *request;
+	struct device_node *np;
+	struct file *fp = NULL;
+	char *filepath = SEC_ANTCABLE_FILEPATH;
+	int wifi_cable = 0;
 
-	request = hdd_request_get(cookie);
-	if (!request) {
-		hddLog(VOS_TRACE_LEVEL_ERROR, FL("Obsolete request"));
+	char antbuffer[2] = {0};
+	mm_segment_t oldfs = {0};
+
+	oldfs = get_fs();
+	set_fs(get_ds());
+	np = of_find_compatible_node(NULL, NULL, "samsung,wcnss_cable");
+
+	if (!np) {
+		printk(KERN_INFO "[WIFI] %s : cannot find the wcnss_cable\n",__FUNCTION__);
 		return;
 	}
-
-	pr_info("%s: Firmware feature capabilities received\n", __func__);
-
-	hdd_request_complete(request);
-	hdd_request_put(request);
-}
-
-/**
- * hdd_get_feature_caps() - Get features supported by firmware
- * @hdd_ctx: Pointer to HDD context
- *
- * This function uses request manager framework to get the feature
- * capabilities from firmware.
- *
- * Return: None
- */
-static void hdd_get_feature_caps(hdd_context_t *hdd_ctx)
-{
-	VOS_STATUS status;
-	void *cookie;
-	int ret;
-	struct hdd_request *request;
-	static const struct hdd_request_params params = {
-		.priv_size = 0,
-		.timeout_ms = WLAN_WAIT_TIME_FEATURE_CAPS,
-	};
-	struct sir_feature_caps_params caps_params = {0};
-
-	request = hdd_request_alloc(&params);
-	if (!request) {
-		pr_err("%s: Request allocation failure\n", __func__);
+	fp = filp_open(filepath, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR|S_IWUSR);
+	if (IS_ERR(fp)) {
+		printk("[WIFI] %s: cannot create a file\n", filepath);
 		return;
 	}
+	wifi_cable = of_get_named_gpio(np, "wlan_cable_wifi", 0);
 
-	cookie = hdd_request_cookie(request);
-	caps_params.user_data = cookie;
-	caps_params.feature_caps_cb = hdd_get_feature_caps_cb;
+	sprintf(antbuffer, "%c\n", (gpio_get_value(wifi_cable) > 0) ? 'D' : 'E');
 
-	status = sme_featureCapsExchange(&caps_params);
-	if (status != VOS_STATUS_SUCCESS) {
-		pr_err("%s: Unable to get feature caps\n", __func__);
-		goto end;
+	if (fp->f_mode & FMODE_WRITE) {	
+		if (vfs_write(fp, antbuffer, strlen(antbuffer), &fp->f_pos) < 0)
+			printk("[WIFI] write to %s is failed: %s", filepath, antbuffer);
+		else
+			printk("[WIFI] write to %s is success: %s", filepath, antbuffer);
 	}
+	printk(KERN_INFO "[WIFI] %s : gpio=%d value = %d \n",__FUNCTION__, wifi_cable, gpio_get_value(wifi_cable)); 
 
-	/* request was sent -- wait for the response */
-	ret = hdd_request_wait_for_response(request);
-	if (ret) {
-		pr_err("%s: SME timeout while retrieving feature caps\n",
-			__func__);
-		goto end;
-	}
-
-end:
-	hdd_request_put(request);
+	if (fp)
+		filp_close(fp, NULL);
+	set_fs(oldfs);
 }
+#endif /* SEC_WRITE_ANT_GPIO_INFO_IN_FILE */
 
 /**---------------------------------------------------------------------------
 

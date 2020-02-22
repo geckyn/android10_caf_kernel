@@ -31067,7 +31067,7 @@ WDI_ProcessFeatureCapsExchangeReq
     Send Start Request to HAL 
   -------------------------------------------------------------------------*/
   return  WDI_SendMsg( pWDICtx, pSendBuffer, usSendSize, 
-                       pEventData->pCBfnc,
+                       (WDI_StartRspCb)pEventData->pCBfnc,
                        pEventData->pUserData, WDI_FEATURE_CAPS_EXCHANGE_RESP);
   
 }/*WDI_ProcessFeatureCapsExchangeReq*/
@@ -31142,8 +31142,8 @@ WDI_ProcessFeatureCapsExchangeRsp
    wdiFeatureCapsExchangeCb = (WDI_featureCapsExchangeCb) pWDICtx -> pfncRspCB; 
 
    /*Notify UMAC - there is no callback right now but can be used in future if reqd */
-   if (wdiFeatureCapsExchangeCb)
-      wdiFeatureCapsExchangeCb(NULL, pWDICtx->pRspCBUserData);
+   if (wdiFeatureCapsExchangeCb != NULL)
+      wdiFeatureCapsExchangeCb(NULL, NULL);
 
    return WDI_STATUS_SUCCESS; 
 }
