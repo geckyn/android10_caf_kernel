@@ -13013,7 +13013,7 @@ void hdd_exchange_version_and_caps(hdd_context_t *pHddCtx)
             sme_disableFeatureCapablity(IBSS_HEARTBEAT_OFFLOAD);
          }
 
-         hdd_get_feature_caps(pHddCtx);
+         sme_featureCapsExchange(pHddCtx->hHal);
       }
 
    } while (0);
