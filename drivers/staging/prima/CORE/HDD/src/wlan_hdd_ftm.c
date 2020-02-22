@@ -4784,9 +4784,8 @@ static VOS_STATUS wlan_ftm_priv_get_mac_address(hdd_adapter_t *pAdapter,char *bu
        {
             vos_nv_readMacAddress(macAddr);
 
-	/*Samsung Specific code , Use MACRO to print MAC ADDR*/
          ret = snprintf(buf, WE_FTM_MAX_STR_LEN,
-						MAC_ADDRESS_STR,
+                             "%02x:%02x:%02x:%02x:%02x:%02x",
                         MAC_ADDR_ARRAY(macAddr));
          if( ret < 0 || ret >= WE_FTM_MAX_STR_LEN )
          {
@@ -4796,10 +4795,9 @@ static VOS_STATUS wlan_ftm_priv_get_mac_address(hdd_adapter_t *pAdapter,char *bu
    }
    else
    {
-	/*Samsung Specific code , Use MACRO to print MAC ADDR*/
          /*Return Hard coded mac address*/
       ret = snprintf(buf, WE_FTM_MAX_STR_LEN,
-					MAC_ADDRESS_STR,
+                            "%02x:%02x:%02x:%02x:%02x:%02x",
                      MAC_ADDR_ARRAY(macAddr));
 
       if( ret < 0 || ret >= WE_FTM_MAX_STR_LEN )

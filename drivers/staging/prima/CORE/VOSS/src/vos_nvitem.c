@@ -95,10 +95,6 @@ static v_BOOL_t crda_regulatory_run_time_entry_valid = VOS_FALSE;
 #define MIN(a, b) (a > b ? b : a)
 #define MAX(a, b) (a > b ? a : b)
 
-#ifdef SEC_WLAN_USE_OLD_NV
-extern unsigned int system_rev;
-#endif
-
 /*----------------------------------------------------------------------------
  * Type Declarations
  * -------------------------------------------------------------------------*/
@@ -1175,23 +1171,6 @@ VOS_STATUS vos_nv_open(void)
         return (eHAL_STATUS_FAILURE);
     }
 
-#ifdef SEC_WLAN_USE_OLD_NV
-    if (CONFIG_WLAN_USE_OLD_NV != 0 && system_rev <= CONFIG_WLAN_USE_OLD_NV)
-	{
-		status = hdd_request_firmware(WLAN_NV_FILE_OLD,
-									  ((VosContextType*)(pVosContext))->pHDDContext,
-									  (v_VOID_t**)&pnvtmpBuf, &nvReadBufSize);
-
-		if ((!VOS_IS_STATUS_SUCCESS( status )) || (!pnvtmpBuf))
-		{
-		   VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
-					   "%s: unable to download NV file %s",
-					   __func__, WLAN_NV_FILE_OLD);
-		   return VOS_STATUS_E_RESOURCES;
-		}
-    }
-	else {
-#endif
     status = hdd_request_firmware(WLAN_NV_FILE,
                                   ((VosContextType*)(pVosContext))->pHDDContext,
                                   (v_VOID_t**)&pnvtmpBuf, &nvReadBufSize);
@@ -1203,9 +1182,6 @@ VOS_STATUS vos_nv_open(void)
                    __func__, WLAN_NV_FILE);
        return VOS_STATUS_E_RESOURCES;
     }
-#ifdef SEC_WLAN_USE_OLD_NV
-    }	
-#endif
 
     pnvEncodedBuf = (v_U8_t *)vos_mem_vmalloc(nvReadBufSize);
 

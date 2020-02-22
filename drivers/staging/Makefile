@@ -47,5 +47,3 @@ obj-$(CONFIG_CRYPTO_SKEIN)	+= skein/
 obj-$(CONFIG_UNISYSSPAR)	+= unisys/
 obj-$(CONFIG_SEC_STI)		+= sti/
 obj-$(CONFIG_VNSWAP)		+= vnswap/
-# WLAN
-obj-$(CONFIG_PRONTO_WLAN)  += prima/
