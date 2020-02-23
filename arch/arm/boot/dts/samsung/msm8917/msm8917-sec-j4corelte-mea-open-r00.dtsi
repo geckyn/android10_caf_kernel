@@ -246,42 +246,6 @@
 	};	
 };
 
-&firmware {
-	android {
-		fstab {
-			compatible = "android,fstab";
-			vendor {
-				/delete-property/status;
-				status = "ok";
-			};
-			system {
-					compatible = "android,system";
-					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/system";
-					type = "ext4";
-					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait";
-					status = "ok";
-			};
-			vendor {
-					compatible = "android,vendor";
-					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/vendor";
-					type = "ext4";
-					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait";
-					status = "ok";
-			};
-			odm {
-					compatible = "android,odm";
-					dev = "/dev/block/platform/soc/7824900.sdhci/by-name/odm";
-					type = "ext4";
-					mnt_flags = "ro,barrier=1,discard";
-					fsmgr_flags = "wait";
-					status = "ok";
-			};
-		};
-	};
-};
-
 &pm8937_cajon_dig {
 	qcom,cdc-micbias-cfilt-mv = <2800000>;
 	qcom,cfilt_gnd_ref; /* 0x142, bit[1]:0 */
