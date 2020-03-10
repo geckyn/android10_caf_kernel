@@ -19,13 +19,13 @@
 #include <linux/regulator/consumer.h>
 
 /*
-static const char const *flashlight_type_string[] = {
+static const char *flashlight_type_string[] = {
 	[FLASHLIGHT_TYPE_XENON] = "Xenon",
 	[FLASHLIGHT_TYPE_LED] = "LED",
 	[FLASHLIFHT_TYPE_BULB] = "Bulb",
 };
 
-static const char const *flashlight_mode_string[] = {
+static const char *flashlight_mode_string[] = {
 	[FLASHLIGHT_MODE_OFF] = "Off",
 	[FLASHLIGHT_MODE_TORCH] = "Torch",
 	[FLASHLIGHT_MODE_FLASH] = "Flash",
