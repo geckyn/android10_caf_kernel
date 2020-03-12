@@ -3689,7 +3689,7 @@ CONFIG_ION_MSM=y
 #
 # Samsung ABC Hub Booting Time Check eng mode Options
 #
-CONFIG_VNSWAP=y
+# CONFIG_VNSWAP is not set
 # CONFIG_GOLDFISH is not set
 
 #
