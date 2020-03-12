@@ -983,7 +983,7 @@ static void mdss_mdp_video_vsync_intr_done(void *arg)
 	pr_debug("intr ctl=%d vsync cnt=%u vsync_time=%d\n",
 		 ctl->num, ctl->vsync_cnt, (int)ktime_to_ms(vsync_time));
 
-	ctx->polling_en = false;
+	ctx->polling_en = 0;
 	complete_all(&ctx->vsync_comp);
 	spin_lock(&ctx->vsync_lock);
 	list_for_each_entry(tmp, &ctx->vsync_handlers, list) {

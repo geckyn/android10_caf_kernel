@@ -17202,10 +17202,11 @@ u8 v_mag_sec_if_pow_mode_u8)
 	break;
 	}
 	/* set mag interface auto mode*/
-	if (p_smi130->mag_manual_enable == SMI130_MANUAL_ENABLE)
+	if (p_smi130->mag_manual_enable == SMI130_MANUAL_ENABLE) {
 		com_rslt += smi130_set_mag_manual_enable(
 		SMI130_MANUAL_DISABLE);
 		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
+	}
 	return com_rslt;
 }
 /*!
@@ -17979,7 +17980,7 @@ const s8 *p_offset_s8)
 	results*/
 	SMI130_RETURN_FUNCTION_TYPE com_rslt = E_SMI130_COMM_RES;
 
-	if (p_smi130->mag_manual_enable != SMI130_MANUAL_ENABLE)
+	if (p_smi130->mag_manual_enable != SMI130_MANUAL_ENABLE) {
 		com_rslt = smi130_set_mag_manual_enable(SMI130_MANUAL_ENABLE);
 		p_smi130->delay_msec(SMI130_YAS532_OFFSET_DELAY);
 
@@ -18004,6 +18005,7 @@ const s8 *p_offset_s8)
 		com_rslt += smi130_set_mag_write_addr(SMI130_YAS532_OFFSET_Z);
 		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
 		set_vector(yas532_data_mbl.v_hard_offset_s8, p_offset_s8);
+	}
 
 	if (p_smi130->mag_manual_enable == SMI130_MANUAL_ENABLE)
 		com_rslt = smi130_set_mag_manual_enable(SMI130_MANUAL_DISABLE);

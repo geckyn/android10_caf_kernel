@@ -83,7 +83,7 @@ void sec_cmd_set_cmd_result(struct sec_cmd_data *data, char *buff, int len)
 {
 	if (strlen(buff) >= (unsigned int)SEC_CMD_RESULT_STR_LEN_EXPAND) {
 		pr_err("%s %s: cmd length is over (%d)!!", SECLOG, __func__, (int)strlen(buff));
-		strncat(data->cmd_result, "NG", 2);
+		strncat(data->cmd_result, "NG", sizeof(data->cmd_result)-strlen(data->cmd_result)-1);
 		return;
 	}
 
