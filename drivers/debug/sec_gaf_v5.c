@@ -7,7 +7,6 @@
 #include <linux/sched.h>
 #include <linux/fs.h>
 #include <linux/mount.h>
-#include <linux/proca.h>
 #include <asm/pgtable.h>
 #include <linux/kernel_stat.h>
 #include "../fs/mount.h"
@@ -93,20 +92,7 @@ static struct GAForensicINFO {
 	unsigned short cfs_rq_struct_rq_struct;
 	unsigned short gaf_fp;
 	unsigned short task_struct_integrity;
-	unsigned short proca_task_descr_task;
-	unsigned short proca_task_descr_proca_identity;
-	unsigned short proca_task_descr_pid_map_node;
-	unsigned short proca_task_descr_app_name_map_node;
-	unsigned short proca_identity_struct_certificate;
-	unsigned short proca_identity_struct_certificate_size;
-	unsigned short proca_identity_struct_parsed_cert;
-	unsigned short proca_identity_struct_file;
 	unsigned short file_struct_f_signature;
-	unsigned short proca_table_hash_tables_shift;
-	unsigned short proca_table_pid_map;
-	unsigned short proca_table_app_name_map;
-	unsigned short proca_certificate_struct_app_name;
-	unsigned short proca_certificate_struct_app_name_size;
 	unsigned short mm_struct_struct_mm_rb;
 	unsigned short vm_area_struct_struct_vm_rb;
 	unsigned short qstr_struct_len;
@@ -243,37 +229,6 @@ static struct GAForensicINFO {
 	.task_struct_integrity = offsetof(struct task_struct, integrity),
 #else
 	.task_struct_integrity = 0xECEF,
-#endif
-#if defined(CONFIG_FIVE_PA_FEATURE) || defined(CONFIG_PROCA)
-	.file_struct_f_signature = offsetof(struct file, f_signature),
-#endif
-#ifdef CONFIG_PROCA
-	.proca_task_descr_task =
-		offsetof(struct proca_task_descr, task),
-	.proca_task_descr_proca_identity =
-		offsetof(struct proca_task_descr, proca_identity),
-	.proca_task_descr_pid_map_node =
-		offsetof(struct proca_task_descr, pid_map_node),
-	.proca_task_descr_app_name_map_node =
-		offsetof(struct proca_task_descr, app_name_map_node),
-	.proca_identity_struct_certificate =
-		offsetof(struct proca_identity, certificate),
-	.proca_identity_struct_certificate_size =
-		offsetof(struct proca_identity, certificate_size),
-	.proca_identity_struct_parsed_cert =
-		offsetof(struct proca_identity, parsed_cert),
-	.proca_table_hash_tables_shift =
-		offsetof(struct proca_table, hash_tables_shift),
-	.proca_table_pid_map =
-		offsetof(struct proca_table, pid_map),
-	.proca_table_app_name_map =
-		offsetof(struct proca_table, app_name_map),
-	.proca_identity_struct_file =
-		offsetof(struct proca_identity, file),
-	.proca_certificate_struct_app_name =
-		offsetof(struct proca_certificate, app_name),
-	.proca_certificate_struct_app_name_size =
-		offsetof(struct proca_certificate, app_name_size),
 #endif
 	.mount_struct_mnt_mountpoint = offsetof(struct mount, mnt_mountpoint),
 #ifdef CONFIG_RKP_NS_PROT
