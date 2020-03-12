@@ -18495,10 +18495,10 @@ u8 v_command_reg_data_u8)
 {
 	SMI130_RETURN_FUNCTION_TYPE com_rslt = E_SMI130_COMM_RES;
 
-	if (p_smi130->mag_manual_enable != SMI130_MANUAL_ENABLE)
-			com_rslt = smi130_set_mag_manual_enable(
-			SMI130_MANUAL_ENABLE);
-			p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
+	if (p_smi130->mag_manual_enable != SMI130_MANUAL_ENABLE) {
+		com_rslt = smi130_set_mag_manual_enable(
+		SMI130_MANUAL_ENABLE);
+		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
 
 		com_rslt = smi130_set_mag_write_data(v_command_reg_data_u8);
 		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
@@ -18511,11 +18511,13 @@ u8 v_command_reg_data_u8)
 		com_rslt += smi130_set_mag_read_addr(
 		YAS537_REG_TEMPERATURE_0);
 		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
+	}
 
-	if (p_smi130->mag_manual_enable == SMI130_MANUAL_ENABLE)
+	if (p_smi130->mag_manual_enable == SMI130_MANUAL_ENABLE) {
 		com_rslt += smi130_set_mag_manual_enable(
 		SMI130_MANUAL_DISABLE);
 		p_smi130->delay_msec(SMI130_GEN_READ_WRITE_DELAY);
+	}
 
 	return com_rslt;
 

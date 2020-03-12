@@ -1693,13 +1693,13 @@ static void print_cmd_desc(struct mdss_dsi_ctrl_pdata *ctrl,
 		len += snprintf(buf + len, sizeof(buf), "%02x ", cmds[j].dchdr.ack);
 		len += snprintf(buf + len, sizeof(buf), "%02x ", cmds[j].dchdr.wait);
 		len += snprintf(buf + len, sizeof(buf), "%02x ", cmds[j].dchdr.dlen);
+	}
 
-		for (i = 0; i < cmds[j].dchdr.dlen; i++)
-			len += snprintf(buf + len, sizeof(buf), "%02x ", cmds[j].payload[i]);
+	for (i = 0; i < cmds[j].dchdr.dlen; i++) {
+		len += snprintf(buf + len, sizeof(buf), "%02x ", cmds[j].payload[i]);
 
 		LCD_INFO("(%02d) %s\n", j, buf);
 	}
-
 	return;
 }
 

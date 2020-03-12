@@ -709,10 +709,10 @@ static ssize_t get_cmoffset_dump(struct sec_ts_data *ts, char *buf, u8 position)
 			temp = rBuff[(j * ts->rx_count) + i];
 
 			snprintf(buff, sizeof(buff), " %4d", temp);
-			strncat(buf, buff, sizeof(buff));
+			strncat(buf, buff, sizeof(buff)-strlen(buf)-1);
 		}
 		snprintf(buff, sizeof(buff), "\n");
-		strncat(buf, buff, sizeof(buff));
+		strncat(buf, buff, sizeof(buff)-strlen(buf)-1);
 	}
 	input_err(true, &ts->client->dev, "%s: total buf size:%d\n", __func__, strlen(buf));
 
