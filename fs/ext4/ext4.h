@@ -3083,6 +3083,8 @@ extern struct mutex ext4__aio_mutex[EXT4_WQ_HASH_SZ];
 extern int ext4_resize_begin(struct super_block *sb);
 extern void ext4_resize_end(struct super_block *sb);
 
+extern void inode_nohighmem(struct inode *inode);
+
 #endif	/* __KERNEL__ */
 
 #endif	/* _EXT4_H */

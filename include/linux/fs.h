@@ -2892,7 +2892,7 @@ static inline bool dir_relax(struct inode *inode)
 	return !IS_DEADDIR(inode);
 }
 
-extern void inode_nohighmem(struct inode *inode);
+//extern void inode_nohighmem(struct inode *inode);
 
 extern bool path_noexec(const struct path *path);
 

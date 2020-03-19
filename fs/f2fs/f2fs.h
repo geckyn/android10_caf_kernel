@@ -1872,7 +1872,7 @@ static inline int inc_valid_block_count(struct f2fs_sb_info *sbi,
 	if (!__allow_reserved_blocks(sbi, inode, true)) {
 		avail_user_block_count -= F2FS_OPTION(sbi).root_reserved_blocks;
 		if (!(F2FS_I(inode)->i_flags & F2FS_CORE_FILE_FL)
-				&& !in_group_p(AID_USE_SEC_RESERVED))
+				&& !in_group_p(AID_USE_ROOT_RESERVED))
 			avail_user_block_count -= F2FS_OPTION(sbi).core_reserved_blocks;
 	}
 
@@ -2083,7 +2083,7 @@ static inline int inc_valid_node_count(struct f2fs_sb_info *sbi,
 	if (!__allow_reserved_blocks(sbi, inode, false)) {
 		valid_block_count += F2FS_OPTION(sbi).root_reserved_blocks;
 		if (!(F2FS_I(inode)->i_flags & F2FS_CORE_FILE_FL)
-				&& !in_group_p(AID_USE_SEC_RESERVED))
+				&& !in_group_p(AID_USE_ROOT_RESERVED))
 			valid_block_count += F2FS_OPTION(sbi).core_reserved_blocks;
 	}
 
