@@ -23,6 +23,8 @@
 	i2c_22: i2c@22 { /* SW I2C */
 		status = "okay";		
 		cell-index = <22>;
+		#address-cells = <1>;
+		#size-cells = <0>;
 		compatible = "i2c-gpio";
 		gpios = <&tlmm 20 0 /* LCD_BL_I2C_SDA */
 			&tlmm 21 0 /* LCD_BL_I2C_SCL */
