@@ -1402,6 +1402,9 @@ static void iommu_disable_protect_mem_regions(struct intel_iommu *iommu)
 	u32 pmen;
 	unsigned long flags;
 
+	if (!cap_plmr(iommu->cap) && !cap_phmr(iommu->cap))
+		return;
+
 	raw_spin_lock_irqsave(&iommu->register_lock, flags);
 	pmen = readl(iommu->reg + DMAR_PMEN_REG);
 	pmen &= ~DMA_PMEN_EPM;
@@ -2841,8 +2844,11 @@ static int __init init_dmars(void)
 		iommu_identity_mapping |= IDENTMAP_ALL;
 
 #ifdef CONFIG_INTEL_IOMMU_BROKEN_GFX_WA
-	iommu_identity_mapping |= IDENTMAP_GFX;
+	dmar_map_gfx = 0;
 #endif
+
+	if (!dmar_map_gfx)
+		iommu_identity_mapping |= IDENTMAP_GFX;
 
 	check_tylersburg_isoch();
 
@@ -3554,9 +3560,7 @@ static void __init init_no_remapping_devices(void)
 
 		/* This IOMMU has *only* gfx devices. Either bypass it or
 		   set the gfx_mapped flag, as appropriate */
-		if (dmar_map_gfx) {
-			intel_iommu_gfx_mapped = 1;
-		} else {
+		if (!dmar_map_gfx) {
 			drhd->ignored = 1;
 			for_each_active_dev_scope(drhd->devices,
 						  drhd->devices_cnt, i, dev)
@@ -3840,7 +3844,7 @@ int dmar_iommu_notify_scope_dev(struct dmar_pci_notify_info *info)
 				rmrru->devices_cnt);
 			if(ret < 0)
 				return ret;
-		} else if (info->event == BUS_NOTIFY_DEL_DEVICE) {
+		} else if (info->event == BUS_NOTIFY_REMOVED_DEVICE) {
 			dmar_remove_dev_scope(info, rmrr->segment,
 				rmrru->devices, rmrru->devices_cnt);
 		}
@@ -3860,7 +3864,7 @@ int dmar_iommu_notify_scope_dev(struct dmar_pci_notify_info *info)
 				break;
 			else if(ret < 0)
 				return ret;
-		} else if (info->event == BUS_NOTIFY_DEL_DEVICE) {
+		} else if (info->event == BUS_NOTIFY_REMOVED_DEVICE) {
 			if (dmar_remove_dev_scope(info, atsr->segment,
 					atsru->devices, atsru->devices_cnt))
 				break;
@@ -4087,6 +4091,9 @@ int __init intel_iommu_init(void)
 			panic("tboot: Failed to reserve iommu ranges\n");
 		goto out_free_reserved_range;
 	}
+
+	if (dmar_map_gfx)
+		intel_iommu_gfx_mapped = 1;
 
 	init_no_remapping_devices();
 

@@ -167,6 +167,9 @@ ipv4_connected:
 	fl6.fl6_sport = inet->inet_sport;
 	fl6.flowi6_uid = sk->sk_uid;
 
+	if (!fl6.flowi6_oif)
+		fl6.flowi6_oif = np->sticky_pktinfo.ipi6_ifindex;
+
 	if (!fl6.flowi6_oif && (addr_type&IPV6_ADDR_MULTICAST))
 		fl6.flowi6_oif = np->mcast_oif;
 
@@ -288,6 +291,7 @@ void ipv6_local_error(struct sock *sk, int err, struct flowi6 *fl6, u32 info)
 	skb_reset_network_header(skb);
 	iph = ipv6_hdr(skb);
 	iph->daddr = fl6->daddr;
+	ip6_flow_hdr(iph, 0, 0);
 
 	serr = SKB_EXT_ERR(skb);
 	serr->ee.ee_errno = err;

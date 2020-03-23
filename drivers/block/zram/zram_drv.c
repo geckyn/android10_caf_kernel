@@ -1298,6 +1298,7 @@ static void destroy_devices(unsigned int nr)
 
 	for (i = 0; i < nr; i++) {
 		zram = &zram_devices[i];
+
 		zram_reset_device(zram);
 
 		blk_cleanup_queue(zram->disk->queue);
