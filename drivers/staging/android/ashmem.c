@@ -421,12 +421,10 @@ static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
 		 * as well to prevent VM_BUG_ON check for f_ops modification.
 		 */
 		if (!vmfile_fops.mmap) {
-			vmfile_fops = *vmfile->f_op;
 			vmfile_fops.mmap = ashmem_vmfile_mmap;
 			vmfile_fops.get_unmapped_area =
 					ashmem_vmfile_get_unmapped_area;
 		}
-		vmfile->f_op = &vmfile_fops;
 	}
 	get_file(asma->file);
 

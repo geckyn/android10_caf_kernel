@@ -1769,7 +1769,7 @@ static int f2fs_ioc_getflags(struct file *filp, unsigned long arg)
 	if (is_inode_flag_set(inode, FI_PIN_FILE))
 		fsflags |= FS_NOCOW_FL;
 
-	flags &= (F2FS_FL_USER_VISIBLE | F2FS_CORE_FILE_FL);
+	fsflags &= F2FS_GETTABLE_FS_FL;
 
 	return put_user(fsflags, (int __user *)arg);
 }

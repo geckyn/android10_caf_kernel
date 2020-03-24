@@ -232,7 +232,7 @@ static inline void limit_reserve_root(struct f2fs_sb_info *sbi)
 	block_t limit = min((sbi->user_block_count << 1) / 1000,
 			sbi->user_block_count - sbi->reserved_blocks);
 
-	/* limit is 1.0% */
+	/* limit is 0.2% */
 	if (test_opt(sbi, RESERVE_ROOT) &&
 			F2FS_OPTION(sbi).root_reserved_blocks > limit) {
 		F2FS_OPTION(sbi).root_reserved_blocks = limit;
@@ -242,8 +242,7 @@ static inline void limit_reserve_root(struct f2fs_sb_info *sbi)
 	if (test_opt(sbi, RESERVE_ROOT) &&
 			F2FS_OPTION(sbi).core_reserved_blocks > limit) {
 		F2FS_OPTION(sbi).core_reserved_blocks = limit;
-		f2fs_msg(sbi->sb, KERN_INFO,
-			"Reduce reserved blocks for core = %u",
+		f2fs_info(sbi, "Reduce reserved blocks for core = %u",
 			F2FS_OPTION(sbi).core_reserved_blocks);
 	}
 	if (!test_opt(sbi, RESERVE_ROOT) &&
@@ -2923,7 +2922,7 @@ static int init_blkz_info(struct f2fs_sb_info *sbi, int devi)
  */
 static int read_raw_super_block(struct f2fs_sb_info *sbi,
 			struct f2fs_super_block **raw_super,
-			int *valid_super_block, int *recovery, bool verbose)
+			int *valid_super_block, int *recovery)
 {
 	struct super_block *sb = sbi->sb;
 	int block;
@@ -3166,7 +3165,7 @@ try_onemore:
 	}
 
 	err = read_raw_super_block(sbi, &raw_super, &valid_super_block,
-								&recovery, retry);
+								&recovery);
 	if (err)
 		goto free_sbi;
 
