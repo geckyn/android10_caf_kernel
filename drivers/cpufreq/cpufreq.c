@@ -2337,7 +2337,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 	if (ret)
 		return ret;
 
-		cpufreq_verify_within_limits(new_policy, 200000, new_policy->max);
+	cpufreq_verify_within_limits(new_policy, 200000, new_policy->max);
 
 	/* notification of the new policy */
 	blocking_notifier_call_chain(&cpufreq_policy_notifier_list,
