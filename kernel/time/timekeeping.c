@@ -1074,7 +1074,7 @@ static void __timekeeping_inject_sleeptime(struct timekeeper *tk,
 	tk_update_sleep_time(tk, timespec64_to_ktime(*delta));
 #ifdef CONFIG_SEC_PM_DEBUG
 #ifdef CONFIG_ARCH_MSM8917
-	printk("Suspended for %llu.%03lu seconds\n",
+	printk("Suspended for %lu.%03lu seconds\n",
 			delta->tv_sec, delta->tv_nsec / NSEC_PER_MSEC);
 #else
 	printk("Suspended for %lu.%03lu seconds\n",
