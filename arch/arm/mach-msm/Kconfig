@@ -188,6 +188,7 @@ config ARCH_MSM8917
 	select MSM_RPM_SMD
 	select MSM_JTAGV8 if CORESIGHT_ETMV4
 	select ARCH_WANT_KMAP_ATOMIC_FLUSH
+	select SEC_NOTSUPPORTED_HLOSNAD
 
 config ARCH_MSM8920
 	bool "MSM8920"
@@ -344,5 +345,84 @@ config ARCH_MSM8909
 	select MSM_BIMC_BWMON
 	select ARCH_WANT_KMAP_ATOMIC_FLUSH
 
+config SEC_MSM8953_PROJECT
+  	depends on ARCH_MSM8953
+        default n
+        bool "Samsung MSM8953 Project"
+        help
+        Support for Samsung MSM8953 Project
+
+config SEC_MSM8937_PROJECT
+  	depends on ARCH_MSM8937
+        default n
+        bool "Samsung MSM8937 Project"
+        help
+        Support for Samsung MSM8937 Project
+
+config SEC_MSM8917_PROJECT
+  	depends on ARCH_MSM8917
+        default n
+        bool "Samsung MSM8917 Project"
+        help
+        Support for Samsung MSM8917 Project
+
+config 3G_DDR_SUPPORT
+      default n
+      bool "3GB DDR RAM support"
+      help
+       Support for 3GB DDR RAM
+
+config SEC_J6PRIMELTE_PROJECT
+        depends on ARCH_MSM8937
+        default n
+        bool "Samsung J6PRIMELTE Project"
+        help
+        Support for Samsung J6PRIMELTE Project
+
+config MACH_J6PRIMELTE_SWA_OPEN
+        depends on SEC_J6PRIMELTE_PROJECT
+        default n
+        bool "Samsung J6PRIMELTE SWA OPEN"
+        help
+        Support for Samsung J6PRIMELTE SWA OPEN device.
+
+config SEC_J4PRIMELTE_PROJECT
+        depends on ARCH_MSM8937
+        default n
+        bool "Samsung J4PRIMELTE Project"
+        help
+        Support for Samsung J4PRIMELTE Project
+
+config MACH_J4PRIMELTE_SEA_OPEN
+        depends on SEC_J4PRIMELTE_PROJECT
+        default n
+        bool "Samsung J4PRIMELTE SEA OPEN"
+        help
+        Support for Samsung J4PRIMELTE SEA OPEN device.
+		
+config SEC_MSM895332LTE_CHN
+	bool "Enable Support for Samsung MSM8953(32bit) LTE CHN device."
+	depends on ARCH_MSM8953
+	help
+	  This enables support for Samsung MSM8953(32bit) LTE CHN device.
+
 endmenu
 endif
+
+config SEC_FACTORY
+	bool "when it comes to sec factory mode"
+	default n
+	help
+	  It will support a sec factory mode
+
+config SAMSUNG_PRODUCT_SHIP
+        bool "set up for product shipping"
+        default n
+
+config RTC_AUTO_PWRON
+        bool "RTC Auto Power on PMICs"
+        depends on ARCH_MSM8953
+        default n
+        help
+          Support for the auto power on alarm on the PMIC.
+          Say Y if you want to enable this feature.
