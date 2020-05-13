@@ -60,6 +60,8 @@ obj-$(CONFIG_LEDS_QPNP_FLASH)		+= leds-qpnp-flash.o
 obj-$(CONFIG_LEDS_QPNP_WLED)		+= leds-qpnp-wled.o
 obj-$(CONFIG_LEDS_SYSCON)		+= leds-syscon.o
 obj-$(CONFIG_LEDS_VERSATILE)		+= leds-versatile.o
+obj-$(CONFIG_LEDS_KTD2026)		+= leds-ktd2026.o
+obj-$(CONFIG_LEDS_S2MU005)		+= leds-s2mu005.o
 obj-$(CONFIG_LEDS_MENF21BMC)		+= leds-menf21bmc.o
 obj-$(CONFIG_LEDS_AW2013)		+= leds-aw2013.o
 
