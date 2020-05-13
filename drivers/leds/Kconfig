@@ -552,6 +552,21 @@ config LEDS_VERSATILE
 	  This option enabled support for the LEDs on the ARM Versatile
 	  and RealView boards. Say Y to enabled these.
 
+config LEDS_S2MU005
+	tristate "S2MU005 flash LED driver"
+	help
+	  A driver for S2MU005 flash LED
+	  This option enables support for the LEDs on the S2MU005.
+
+config LEDS_KTD2026
+	tristate "LED driver for KTD2026 LED"
+	depends on I2C
+	  help
+	  This option enables support for RGB LED driver
+	  accessed via the I2C bus.
+	  KTD2026 is a fully programmable, constant current
+	  three channel LED driver with flexible control interface.
+
 config LEDS_AW2013
 	tristate "LED support for AW2013"
 	depends on LEDS_CLASS && I2C
