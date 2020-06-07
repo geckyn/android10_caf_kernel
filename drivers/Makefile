@@ -172,3 +172,7 @@ obj-$(CONFIG_BIF)		+= bif/
 
 obj-$(CONFIG_SENSORS)		+= sensors/
 obj-$(CONFIG_SENSORS_SSC)	+= sensors/
+
+ifeq ($(CONFIG_FB_MSM_MDSS_SAMSUNG),y)
+	LINUXINCLUDE	+=  -I$(srctree)/drivers/video/msm/mdss/samsung/
+endif
