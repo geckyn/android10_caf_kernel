@@ -237,6 +237,7 @@ config MSM_GVM_QUIN
 source "init/Kconfig"
 
 source "kernel/Kconfig.freezer"
+source "arch/arm64/Kconfig.projects"
 
 menu "Platform selection"
 
