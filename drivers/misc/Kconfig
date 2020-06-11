@@ -600,6 +600,29 @@ config QPNP_MISC
 	  and the driver provides an API to check if this interrupt
 	  is available on the current PMIC chip.
 
+config SAMSUNG_JACK
+	bool "3.5 PI Jack driver for Samsung devices"
+	depends on INPUT
+	default n
+	help
+	 This is 3.5 PI JACK driver for Samsung devies.
+	 sec_jack from samsung driver used for samsung devices.
+
+	 To samsung jack is reviewed and supported in all the
+	 samsung devices.
+
+config SEC_MPP_SHARE
+	bool "Samsung MPP share"
+	help
+	  Say Y to include support for mpp share
+
+config SEC_MPP_SHARE_LOW_TEMP_WA
+	bool "Samsung MPP share Low Temp WA"
+	help
+	  Say Y to include support for MUX share WA.
+	  When EAR_ADC_3.5 and BAT_THM use same MUX Switch IC,
+	  connect some non-official earphone, will cause BAT_THM Low Temp.
+
 config UID_SYS_STATS_DEBUG
 	bool "Per-TASK statistics"
 	depends on UID_SYS_STATS

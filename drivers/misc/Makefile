@@ -73,3 +73,6 @@ obj-$(CONFIG_MEMORY_STATE_TIME) += memory_state_time.o
 obj-$(CONFIG_APDS9930)		+= apds993x.o
 obj-$(CONFIG_UID_SYS_STATS) += uid_sys_stats.o
 obj-$(CONFIG_MEMORY_STATE_TIME) += memory_state_time.o
+# Samsung Jack
+obj-$(CONFIG_SAMSUNG_JACK)	+= sec_jack.o
+obj-$(CONFIG_SEC_MPP_SHARE)	+= sec_mux_sel.o
