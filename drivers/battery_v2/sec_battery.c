@@ -9873,7 +9873,7 @@ static int sec_battery_probe(struct platform_device *pdev)
 		POWER_SUPPLY_PROP_CHARGE_CONTROL_LIMIT_MAX, value);
 
 	/* make fg_reset true again for actual normal booting after recovery kernel is done */
-	if (fg_reset && is_boot_recovery()) {
+	if (fg_reset) {
 		psy_do_property(battery->pdata->fuelgauge_name, set,
 			POWER_SUPPLY_PROP_ENERGY_NOW, value);
 		pr_info("%s: make fg_reset true again for actual normal booting\n", __func__);
