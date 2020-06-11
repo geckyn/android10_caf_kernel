@@ -285,8 +285,7 @@ dtb-$(CONFIG_ARCH_MDM9607) += mdm9607-rumi.dtb \
 	mdm9206-mtp.dtb \
 	mdm9206-cdp.dtb \
 	mdm9206-mtp-sdcard.dtb \
-	mdm9206-rcm.dtb \
-	mdm9207c-mtp.dtb
+	mdm9206-rcm.dtb
 
 dtb-$(CONFIG_ARCH_MSM8916) += msm8952-qrd-skum.dtb \
        msm8952-cdp.dtb \
