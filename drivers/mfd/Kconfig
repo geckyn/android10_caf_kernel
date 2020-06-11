@@ -1332,6 +1332,23 @@ config MFD_STW481X
 	  in various ST Microelectronics and ST-Ericsson embedded
 	  Nomadik series.
 
+config MFD_S2MU005
+	bool "SAMSUNG Electronics IF PMIC Series Support"
+	depends on I2C=y
+	select MFD_CORE
+	help
+	 Support for the Samsung Electronics MFD series.
+	 This driver provides common support for accessing the device,
+	 additional drivers must be enabled in order to use the functionality
+	 of the device
+
+config LEDS_S2MU005_FLASH
+	 tristate "Siliconmitus S2MU005 flash LED driver"
+	 depends on LEDS_S2MU005
+	 help
+	  A driver for Siliconmitus S2MU005 flash LED
+	  This option enables support for the LEDs on the S2MU005.
+
 config WCD9306_CODEC
 	tristate "WCD9306 Codec"
 	select SLIMBUS
