@@ -10,7 +10,13 @@
 #
 # Copyright (C) 1995-2001 by Russell King
 
+ifeq ($(CONFIG_RELOCATABLE_KERNEL), y) 
+LDFLAGS_vmlinux	:=--no-undefined -X -pie -Bsymbolic
+else 
 LDFLAGS_vmlinux	:=--no-undefined -X
+endif 
+
+>>>>>>> 42a858ece540... arch: arm/arm64: import samsung dts changes for j4primelte
 CPPFLAGS_vmlinux.lds = -DTEXT_OFFSET=$(TEXT_OFFSET)
 OBJCOPYFLAGS	:=-O binary -R .note -R .note.gnu.build-id -R .comment -S
 GZFLAGS		:=-9
@@ -65,6 +71,9 @@ KBUILD_CPPFLAGS	+= -mlittle-endian
 AS		+= -EL
 LD		+= -EL
 endif
+
+KBUILD_CFLAGS	+= $(arch-y) $(tune-y)
+KBUILD_AFLAGS	+= $(arch-y) $(tune-y)
 
 CHECKFLAGS	+= -D__aarch64__
 
@@ -131,7 +140,14 @@ zinstall install: vmlinux
 PHONY += dtbs dtbs_install
 
 dtbs: prepare scripts
-	$(Q)$(MAKE) $(build)=$(boot)/dts
+#	$(Q)$(MAKE) $(build)=$(boot)/dts
+# MSM8917
+ifeq ($(CONFIG_ARCH_MSM8917),y)
+	$(Q)$(MAKE) $(build)=$(boot)/dts/samsung/msm8917
+# MSM8937
+else
+	$(Q)$(MAKE) $(build)=$(boot)/dts/qcom
+endif
 
 dtbs_install:
 	$(Q)$(MAKE) $(dtbinst)=$(boot)/dts
