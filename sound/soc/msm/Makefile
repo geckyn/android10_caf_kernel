@@ -30,9 +30,12 @@ obj-$(CONFIG_SND_SOC_MSM8996) += snd-soc-msm8996.o
 snd-soc-msm8996-vm-objs := apq8096-auto.o
 obj-$(CONFIG_SND_SOC_MSM8996_VM) += snd-soc-msm8996-vm.o
 
+# for MSM 8x16/8952 common obj for sound card driver
+snd-soc-msm8x16-audio-pinctl-objs := msm-audio-pinctrl.o
+obj-$(CONFIG_SND_SOC_MSM8X16) += snd-soc-msm8x16-audio-pinctl.o
+
 # for MSM 8x16/8952 sound card driver
-snd-soc-msm8x16-objs := msm8952.o msm-audio-pinctrl.o
-snd-soc-msm8x16-objs += msm8952-slimbus.o msm8952-dai-links.o
+snd-soc-msm8x16-objs := msm8952.o
 obj-$(CONFIG_SND_SOC_MSM8X16) += snd-soc-msm8x16.o
 
 # for MDM 9650 sound card driver
