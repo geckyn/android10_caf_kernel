@@ -180,3 +180,6 @@ endif
 
 # MUIC
 obj-$(CONFIG_USE_MUIC)		+= muic/
+
+# Motor
+obj-y				+= motor/
