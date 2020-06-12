@@ -136,6 +136,14 @@ fw-shipped-$(CONFIG_USB_VICAM) += vicam/firmware.fw
 fw-shipped-$(CONFIG_VIDEO_CPIA2) += cpia2/stv0672_vp4.bin
 fw-shipped-$(CONFIG_YAM) += yam/1200.bin yam/9600.bin
 
+ifdef CONFIG_SEC_J4PRIMELTE_PROJECT
+fw-shipped-$(CONFIG_TOUCHSCREEN_SEC_INCELL_TS) += tsp_sec/s6d7at01a01_j4prime.fw
+endif
+
+ifdef CONFIG_SEC_J6PRIMELTE_PROJECT
+fw-shipped-$(CONFIG_TOUCHSCREEN_SEC_INCELL_TS) += tsp_sec/s6d7at01a01_j5y18lte.fw tsp_sec/s6d7at01a01_j5y18lte_hd.fw
+endif
+
 fw-shipped-all := $(fw-shipped-y) $(fw-shipped-m) $(fw-shipped-)
 
 quiet_cmd_ihex  = IHEX    $@
