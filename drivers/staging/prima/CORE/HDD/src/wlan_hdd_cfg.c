@@ -60,6 +60,14 @@
 #include <pmcApi.h>
 #include <wlan_hdd_misc.h>
 
+#ifdef SEC_CONFIG_PSM
+unsigned int wlan_hdd_sec_get_psm(unsigned int original_value);
+#endif
+
+#ifdef SEC_CONFIG_GRIP_POWER
+unsigned int wlan_hdd_sec_get_grip_power(int);
+#endif /* SEC_CONFIG_GRIP_POWER */
+
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
 static void cbNotifySetRoamPrefer5GHz(hdd_context_t *pHddCtx, unsigned long NotifyId)
 {
@@ -4872,6 +4880,65 @@ static int parseHexDigit(char c)
   return 0;
 }
 
+// Control power save mode on/off
+#ifdef SEC_CONFIG_PSM
+#define SEC_PSM_FILEPATH	"/data/vendor/conn/.psm.info"
+
+unsigned int wlan_hdd_sec_get_psm(unsigned int original_value)
+{
+	struct file *fp      = NULL;
+	char *filepath       = SEC_PSM_FILEPATH;
+	int i;
+	int value = 0;
+
+	for (i = 0; i < MAX_RETRY; ++i) {
+		fp = filp_open(filepath, O_RDONLY, 0);
+		if (!IS_ERR(fp)) {
+			//kernel_read(fp, fp->f_pos, &value, 1);
+			kernel_read(fp, 0, (char *)&value, 1);
+			printk("[WIFI] PSM: [%u]\n", value);
+			if (value == '0')
+				original_value = value - '0';
+			break;
+		}
+	}
+	if (fp && !IS_ERR(fp))
+		filp_close(fp, NULL);
+
+	return original_value;
+}
+#endif /* SEC_CONFIG_PSM */
+
+#ifdef SEC_CONFIG_GRIP_POWER
+#define SEC_GRIPPOWER_FILEPATH	"/vendor/firmware/wlan/prima/grippower.info"
+unsigned int wlan_hdd_sec_get_grip_power(int channel)
+{
+	struct file *fp      = NULL;
+	char *filepath       = SEC_GRIPPOWER_FILEPATH;
+	char buf[6]          = {0};
+	unsigned int grip_power_2g, grip_power_5g;
+	int i;
+	int value = 50; // restore value by default
+
+	for (i = 0; i < MAX_RETRY; ++i) {
+		fp = filp_open(filepath, O_RDONLY, 0);
+		if (!IS_ERR(fp)) {
+			// For example, 2g_tx power is 15, 5g_tx_power is 5 => 15:05
+			kernel_read(fp, 0, buf, 5);
+			sscanf(buf, "%d:%d", (unsigned int *)&grip_power_2g, (unsigned int *)&grip_power_5g);
+			printk("[WIFI] GRIPPOWER: [%u:%u]\n", grip_power_2g, grip_power_5g);
+			if (channel <= 13)
+				value = grip_power_2g;
+			else
+				value = grip_power_5g;
+			break;
+		}
+	}
+	if (fp && !IS_ERR(fp))
+		filp_close(fp, NULL);
+	return value;
+}
+#endif /* SEC_CONFIG_GRIP_POWER */
 
 static VOS_STATUS hdd_apply_cfg_ini( hdd_context_t *pHddCtx, tCfgIniEntry* iniTable, unsigned long entries)
 {
@@ -4975,6 +5042,22 @@ static VOS_STATUS hdd_apply_cfg_ini( hdd_context_t *pHddCtx, tCfgIniEntry* iniTa
             }
          }
 
+/*SS specific code*/
+#ifdef SEC_CONFIG_PSM
+		if (!strcmp(pRegEntry->RegName, CFG_ENABLE_IMPS_NAME) || !strcmp(pRegEntry->RegName, CFG_ENABLE_BMPS_NAME)) {
+			printk("[WIFI] %s: original_value  = %u", pRegEntry->RegName, value);
+			value = wlan_hdd_sec_get_psm(value);
+			printk("[WIFI] %s: sec_control_psm = %u", pRegEntry->RegName, value);
+		}
+		// newly added for LFR enabling,disabling.
+		if (!strcmp(pRegEntry->RegName, CFG_LFR_FEATURE_ENABLED_NAME) ||
+			!strcmp(pRegEntry->RegName, CFG_FAST_TRANSITION_ENABLED_NAME) ||
+			!strcmp(pRegEntry->RegName, CFG_FW_RSSI_MONITORING_NAME)) {
+			printk("[WIFI] %s: original_value  = %u", pRegEntry->RegName, value);
+			value = wlan_hdd_sec_get_psm(value);
+			printk("[WIFI] %s: sec_control_psm = %u", pRegEntry->RegName, value);
+		}
+#endif
          // Move the variable into the output field.
          memcpy( pField, &value, pRegEntry->VarSize );
       }

@@ -78,8 +78,14 @@
 #include "wlan_qct_pal_trace.h"
 
 #include "wlan_qct_dev_defs.h"
+#ifdef CONFIG_SEC
+#define MAC_ADDR_ARRAY(a) (a)[0], (a)[4], (a)[5]
+/** Mac Address string **/
+#define MAC_ADDRESS_STR "%02x:%02x:%02x"
+#else
 #define MAC_ADDR_ARRAY(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
 #define MAC_ADDRESS_STR "%02x:%02x:%02x:%02x:%02x:%02x"
+#endif /* CONFIG_SEC */
 
 extern uint8 WDA_IsWcnssWlanCompiledVersionGreaterThanOrEqual(uint8 major, uint8 minor, uint8 version, uint8 revision);
 extern uint8 WDA_IsWcnssWlanReportedVersionGreaterThanOrEqual(uint8 major, uint8 minor, uint8 version, uint8 revision);

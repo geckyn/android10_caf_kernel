@@ -70,6 +70,10 @@
 /* 012345678 */
 #define WLAN_HDD_UI_SET_BAND_VALUE_OFFSET              8
 
+#ifdef SEC_CONFIG_GRIP_POWER
+#define WLAN_HDD_UI_SET_GRIP_TX_PWR_VALUE_OFFSET       21
+#endif /* SEC_CONFIG_GRIP_POWER */
+
 #ifdef WLAN_SOFTAP_VSTA_FEATURE
 /* 41 - STA support with Virtual STA feature
  * 1  - Broadcast STA
@@ -465,5 +469,9 @@ int hdd_setBand(struct net_device *dev, u8 ui_band);
 int hdd_setBand_helper(struct net_device *dev, const char *command);
 VOS_STATUS wlan_hdd_get_frame_logs(hdd_adapter_t *pAdapter, v_U8_t flag);
 int wlan_hdd_set_proximity(int set_value, tHalHandle hal);
+#ifdef SEC_CONFIG_GRIP_POWER
+int hdd_setGripPwr(struct net_device *dev, u8 set_value);
+int hdd_setGripPwr_helper(struct net_device *dev, const char *command);
+#endif /* SEC_CONFIG_GRIP_POWER */
 #endif // __WEXT_IW_H__
 

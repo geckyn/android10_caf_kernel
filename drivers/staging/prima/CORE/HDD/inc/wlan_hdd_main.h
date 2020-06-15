@@ -175,9 +175,15 @@
 
 #define MAX_CFG_STRING_LEN  255
 
+#ifdef CONFIG_SEC
+#define MAC_ADDR_ARRAY(a) (a)[0], (a)[4], (a)[5]
+/** Mac Address string **/
+#define MAC_ADDRESS_STR "%02x:%02x:%02x"
+#else
 #define MAC_ADDR_ARRAY(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
 /** Mac Address string **/
 #define MAC_ADDRESS_STR "%02x:%02x:%02x:%02x:%02x:%02x"
+#endif /* CONFIG_SEC */
 #define MAC_ADDRESS_STR_LEN 18 /* Including null terminator */
 #define MAX_GENIE_LEN 255
 
@@ -2119,6 +2125,11 @@ int hdd_handle_batch_scan_ioctl
 void hdd_deinit_batch_scan(hdd_adapter_t *pAdapter);
 
 #endif /*End of FEATURE_WLAN_BATCH_SCAN*/
+
+#ifdef SEC_WRITE_ANT_GPIO_INFO_IN_FILE
+void cnss_read_roam_cable(void);
+#endif /* SEC_WRITE_ANT_GPIO_INFO_IN_FILE */
+
 void wlan_hdd_send_svc_nlink_msg(int type, void *data, int len);
 
 boolean hdd_is_5g_supported(hdd_context_t * pHddCtx);
