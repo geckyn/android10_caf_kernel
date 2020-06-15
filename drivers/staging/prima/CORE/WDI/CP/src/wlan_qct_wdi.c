@@ -99,8 +99,14 @@
  ===========================================================================*/
 #define WDI_WCTS_ACTION_TIMEOUT       2000 /* in msec a very high upper limit */
 
+#ifdef CONFIG_SEC
+#define MAC_ADDR_ARRAY(a) (a)[0], (a)[4], (a)[5]
+/** Mac Address string **/
+#define MAC_ADDRESS_STR "%02x:%02x:%02x"
+#else
 #define MAC_ADDR_ARRAY(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
 #define MAC_ADDRESS_STR "%02x:%02x:%02x:%02x:%02x:%02x"
+#endif /* CONFIG_SEC */
 
 #define FEATURE_NOT_SUPPORTED 127
 #define MAX_FW_HOST_CAP_SIZE 1024
