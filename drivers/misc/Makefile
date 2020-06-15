@@ -74,3 +74,6 @@ obj-$(CONFIG_APDS9930)		+= apds993x.o
 # Samsung Jack
 obj-$(CONFIG_SAMSUNG_JACK)	+= sec_jack.o
 obj-$(CONFIG_SEC_MPP_SHARE)	+= sec_mux_sel.o
+
+# Secure OS Mobicore Interface
+obj-$(CONFIG_QSEECOM)	+= tzic64.o
