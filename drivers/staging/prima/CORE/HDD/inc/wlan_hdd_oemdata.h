@@ -70,6 +70,10 @@ struct iw_oem_data_rsp
     tANI_U8           oemDataRsp[OEM_DATA_RSP_SIZE];
 };
 
+#if defined(SEC_READ_MACADDR_SYSFS) || defined(SEC_CONFIG_PSM) || defined(SEC_CONFIG_GRIP_POWER)
+#define MAX_RETRY					5
+#endif /* SEC_READ_MACADDR_SYSFS || SEC_CONFIG_PSM || SEC_CONFIG_GRIP_POWER */
+
 int oem_activate_service(void *pAdapter);
 void oem_deactivate_service(void);
 

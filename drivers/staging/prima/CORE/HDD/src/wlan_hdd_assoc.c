@@ -5945,6 +5945,11 @@ int __iw_get_ap_address(struct net_device *dev,
     else
     {
         memset(wrqu->ap_addr.sa_data,0,sizeof(wrqu->ap_addr.sa_data));
+#ifdef CONFIG_SEC
+		/* CN 999673 [STA] return value of ioctl(SIOCGIWAP) while AP is not connected */
+		hddLog(LOG1, "%s Not Associated, return -EINVAL", __FUNCTION__);
+		return -EINVAL;
+#endif
     }
     EXIT();
     return 0;
