@@ -10161,32 +10161,6 @@ static int iw_set_grip_pwr_config(struct net_device *dev,
 }
 #endif /* SEC_CONFIG_GRIP_POWER */
 
-static int get_fwr_memdump(struct net_device *dev,
-                            struct iw_request_info *info,
-                            union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
-    int ret;
-    ENTER();
-   // HddCtx sanity
-   ret = wlan_hdd_validate_context(pHddCtx);
-   if (0 != ret)
-   {
-      return ret;
-   }
-   if( !pHddCtx->cfg_ini->enableFwrMemDump ||
-      (FALSE == sme_IsFeatureSupportedByFW(MEMORY_DUMP_SUPPORTED)))
-   {
-      hddLog(VOS_TRACE_LEVEL_INFO, FL("FW dump Logging not supported"));
-      return -EINVAL;
-   }
-   ret = wlan_hdd_fw_mem_dump_req(pHddCtx);
-
-   EXIT();
-   return ret;
-}
-
 static int __iw_set_power_params_priv(struct net_device *dev,
                                       struct iw_request_info *info,
                                       union iwreq_data *wrqu, char *extra)
