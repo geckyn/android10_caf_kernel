@@ -49,6 +49,8 @@
 			cpu-release-addr = <0x0 0x90000000>;
 			qcom,acc = <&acc0>;
 			qcom,limits-info = <&mitigation_profile0>;
+			efficiency = <1024>;
+			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
 			next-level-cache = <&L2_1>;
 			L2_1: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -75,6 +77,8 @@
 			cpu-release-addr = <0x0 0x90000000>;
 			qcom,acc = <&acc1>;
 			qcom,limits-info = <&mitigation_profile1>;
+			efficiency = <1024>;
+			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
 			next-level-cache = <&L2_1>;
 			L1_I_101: l1-icache {
 				compatible = "arm,arch-cache";
@@ -94,6 +98,8 @@
 			cpu-release-addr = <0x0 0x90000000>;
 			qcom,acc = <&acc2>;
 			qcom,limits-info = <&mitigation_profile2>;
+			efficiency = <1024>;
+			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
 			next-level-cache = <&L2_1>;
 			L1_I_102: l1-icache {
 				compatible = "arm,arch-cache";
@@ -113,6 +119,8 @@
 			cpu-release-addr = <0x0 0x90000000>;
 			qcom,acc = <&acc3>;
 			qcom,limits-info = <&mitigation_profile3>;
+			efficiency = <1024>;
+			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
 			next-level-cache = <&L2_1>;
 			L1_I_103: l1-icache {
 				compatible = "arm,arch-cache";
@@ -124,6 +132,35 @@
 			};
 		};
 
+	};
+
+	energy_costs: energy-costs {
+		compatible = "sched-energy";
+
+		CPU_COST_0: core-cost0 {
+			busy-cost-data = <
+				 960000 159
+				1094000 207
+				1248000 256
+				1401000 327
+				1497600 343
+			>;
+			idle-cost-data = <
+				100 80 60 40
+			>;
+		};
+		CLUSTER_COST_0: cluster-cost0 {
+			busy-cost-data = <
+				 960000 53
+				1094000 61
+				1248000 71
+				1401000 85
+				1497600 88
+			>;
+			idle-cost-data = <
+				4 3 2 1
+			>;
+		};
 	};
 };
 
